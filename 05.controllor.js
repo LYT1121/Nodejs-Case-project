@@ -2,7 +2,7 @@
 const express = require('express');
 // 引入数据层
 const model = require('./06.model');
-let controllor = {
+const controllor = {
     // 请求主页的方法
     getIndexHtml(req,res){
         // 引入数据层获取所有英雄的方法
@@ -53,6 +53,48 @@ let controllor = {
                 // 返回成功=>提示
                 res.send({code:200,msg:'恭喜你，添加英雄成功'});
             })
+        })
+    },
+    // 返回一个修改的页面
+    getEdit(req,res){
+        // 因为edit.html里面没有动态数据，重新读取数据，麻烦=》直接使用render把页面返回
+        // 先把edit.html改为edit.ejs
+        res.render('edit');
+    },
+    // 开一个根据id获取原来数据的接口的方法
+    getHeroById(req,res){
+        let id = req.query.id;
+        console.log(id)
+        model.getHeroById(id,target=>{
+            let response = {};
+            if(target){
+                response.code = 200;
+                response.msg = '获取成功';
+                response.data = target;
+            }else{
+                response.code = 503;
+                response.msg = '没有找到对应的数据，请确认id是否正确';
+            }
+            res.send(response);
+        })
+    },
+    // 修改英雄信息
+    editHeroById(req,res){
+        // 获取数据
+        let data = req.body;
+        console.log(data);
+        // 把数据读取出来
+        model.getAllHero(arr=>{
+            // 遍历数组，把id对比，如果id一致，就把数据修改
+            arr.forEach(e => {
+              if(e.id === data.id){
+                  e.id = data;
+                  break;
+              }  
+            });
+            // 把修改是数据写入json文件数据库
+            model.writeFile(arr);
+            res.send({code:200,msg:'修改成功'});
         })
     }
 }

@@ -23,5 +23,17 @@ router.get('/add',(req,res)=>{
 router.post('/addNewHero',(req,res)=>{
     controllor.addNewHero(req,res);
 })
+// 请求监听以/edit 返回修改编辑页面
+router.get('/edit',(req,res)=>{
+    controllor.getEdit(req,res);
+})
+// 给前端一个根据id获取原来的数据的接口
+router.get('/getHeroById',(req,res)=>{
+    controllor.getHeroById(req,res);
+})
+// 修改英雄的端口
+router.post('/editHeroById',(req,res)=>{
+    controllor.editHeroById(req,res);
+})
 // 将路由层暴露
 module.exports = router;

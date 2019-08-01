@@ -13,6 +13,17 @@ app.listen(8080,()=>{
 // 获取静态资源
 app.use('/views',express.static('views'));
 app.use('/assets',express.static('assets'));
+
+// 允许跨域
+let allow = function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  }
+app.use(allow)
+  
 // 设置默认模板引擎
 app.set('view engine','ejs');
 

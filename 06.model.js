@@ -33,6 +33,17 @@ let model = {
             // 此时id就是最大的id=>也是通过回调函数得到最大id
             callback(id);
         })
+    },
+    // 获取修改目标id（原来id）
+    getHeroById(id,callback){
+        this.getAllHero((arr)=>{
+            // find() 方法返回通过测试（函数内判断）的数组的第一个元素的值。
+            let target = arr.find(e=>{
+                return e.id == id;
+            });
+            // console.log(target);
+            callback(target);
+        })
     }
 }
 // 将数据层暴露
